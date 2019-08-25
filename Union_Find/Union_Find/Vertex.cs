@@ -4,14 +4,16 @@ using System.Text;
 
 namespace Union_Find
 {
-    class Vertex<T> where T : IComparable
+    class Vertex<T>
     {
+        
         public T Value;
-        public bool IsVisited;
-        public double TotalDistance = double.NegativeInfinity;
+
+        public bool IsVisited = false;
+        public double TotalDistance = double.PositiveInfinity;
         public Vertex<T> Founder = null;
 
-        public Dictionary<Vertex<T>, double> Edges = new Dictionary<Vertex<T>, double>();
+        public Dictionary<Vertex<T>, double> Edges = new Dictionary<Vertex<T>, double>(); //Dictionary<Vertex<T>, double>
 
         public Vertex(T value)
         {
@@ -23,7 +25,7 @@ namespace Union_Find
         {
             return TotalDistance.CompareTo(other.TotalDistance);
         }
-        
+
         public override string ToString()
         {
             return Value.ToString();
