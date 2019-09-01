@@ -5,42 +5,12 @@ using System.Linq;
 
 namespace Union_Find
 {
-    public static class Graph
-    {
-        public static Graph<Point> Maze1(int height, int width)
-        {
-            var maze = new List<HashSet<Vertex<Point>>>(width * height);
-
-            var walls = new List<(Vertex<Point> first, Vertex<Point> second)>();
-        }
-    }
-
-
     class Program
     {
-
-
-
         static void Main(string[] args)
         {
-            var maze = new List<HashSet<Vertex<Point>>>();
-            
-            var walls = new List<(Vertex<Point> first, Vertex<Point> second) > 
+
         }
-
-
-
-        static 
-
-
-
-
-
-
-
-
-
-
         /* static void PrintArray(int[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
@@ -93,8 +63,7 @@ namespace Union_Find
                     array[i] = parent2;
                 }
                 array[parent2] -= size1;
-            }
-        }
-    }*/
+            }*/
     }
 }
+

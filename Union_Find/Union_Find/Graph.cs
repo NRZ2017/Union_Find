@@ -1,11 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Text;
 
 namespace Union_Find
 {
-    class Graph<T> where T : IComparable<T>
+    public class Graph<T>
     {
+        public Vertex<T> this[int i]
+        {
+            get
+            {
+
+            }
+            set
+            {
+                
+            }
+        }
+
         public List<Vertex<T>> Vertices = new List<Vertex<T>>();
         public int EdgeCount { get; private set; }
 
@@ -68,3 +82,67 @@ namespace Union_Find
             B.Edges.Remove(A);
         }
     }
+
+    public class Graph
+    {
+        public static Graph<Point> Maze(int height, int width, int seed)
+        {
+
+            var graph = new Graph<Point>();
+
+            var maze = new List<HashSet<Vertex<Point>>>(width * height);
+
+            var walls = new List<(Vertex<Point> first, Vertex<Point> second)>();
+
+            Random gen = new Random(seed);
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    graph.AddVertex(new Vertex<Point>(new Point(x, y)));
+                    maze.Add(new HashSet<Vertex<Point>>());
+                    maze[maze.Count - 1].Add(graph[graph.Count - 1]);
+                }
+            }
+
+           for(int i = 0; i < maze.Count - 1; i++)
+            {
+                if((i + 1) % width == 0)
+                {
+                    i++;
+                }
+
+                walls.Add((maze[i].First(), maze[i + 1].First()));
+            }
+            
+           for(int i = 0; i < maze.Count - width; i++)
+            {
+                walls.Add((maze[i].First(), maze[i + width].First()));
+            }
+            
+           while(maze.Count > 1)
+            {
+                var RandomWall = walls[gen.Next(walls.Count)];
+
+                var First = maze.Where(x => x.Contains(RandomWall.first)).First();
+
+                var Second = maze.Where(x => x.Contains(RandomWall.second)).First();
+
+                if (First == Second)
+                {
+                    continue;
+                }
+
+                graph.AddEdge(RandomWall.first, RandomWall.second, 0);
+
+                First.UnionWith(Second);
+
+                maze.Remove(Second);
+                walls.Remove(RandomWall);
+            }
+
+            return graph;
+        }
+    }
+}

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Union_Find
 {
-    class Vertex<T>
+    public class Vertex<T>
     {
         
         public T Value;
