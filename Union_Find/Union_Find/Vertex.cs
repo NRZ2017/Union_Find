@@ -12,8 +12,11 @@ namespace Union_Find
         public bool IsVisited = false;
         public double TotalDistance = double.PositiveInfinity;
         public Vertex<T> Founder = null;
+    
 
         public Dictionary<Vertex<T>, double> Edges = new Dictionary<Vertex<T>, double>(); //Dictionary<Vertex<T>, double>
+
+        public int Count => Edges.Count;
 
         public Vertex(T value)
         {

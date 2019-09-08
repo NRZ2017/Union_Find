@@ -6,23 +6,19 @@ using System.Text;
 
 namespace Union_Find
 {
-    public class Graph<T>
+    public class Graph<T> 
     {
-        public Vertex<T> this[int i]
-        {
-            get
-            {
-
-            }
-            set
-            {
-                
-            }
-        }
 
         public List<Vertex<T>> Vertices = new List<Vertex<T>>();
         public int EdgeCount { get; private set; }
 
+        public Graph<Point> this[int index]
+        {
+            get
+            {
+                return null;
+            }
+        }
 
         public Graph()
         {
@@ -81,18 +77,14 @@ namespace Union_Find
             A.Edges.Remove(B);
             B.Edges.Remove(A);
         }
-    }
 
-    public class Graph
-    {
         public static Graph<Point> Maze(int height, int width, int seed)
         {
-
             var graph = new Graph<Point>();
 
             var maze = new List<HashSet<Vertex<Point>>>(width * height);
 
-            var walls = new List<(Vertex<Point> first, Vertex<Point> second)>();
+            var walls = new List<(Vertex<Point> first, Vertex<Point> second)>(((width - 1) * height) + ((height - 1) * width));
 
             Random gen = new Random(seed);
 
@@ -102,26 +94,27 @@ namespace Union_Find
                 {
                     graph.AddVertex(new Vertex<Point>(new Point(x, y)));
                     maze.Add(new HashSet<Vertex<Point>>());
-                    maze[maze.Count - 1].Add(graph[graph.Count - 1]);
+                    //maze[maze.Count - 1].Add(graph[graph.EdgeCount - 1]);
+                    maze[maze.Count - 1].Add(graph.Vertices[graph.Vertices.Count - 1]);
                 }
             }
 
-           for(int i = 0; i < maze.Count - 1; i++)
+            for (int i = 0; i < maze.Count - 1; i++)
             {
-                if((i + 1) % width == 0)
+                if ((i + 1) % width == 0)
                 {
                     i++;
                 }
 
                 walls.Add((maze[i].First(), maze[i + 1].First()));
             }
-            
-           for(int i = 0; i < maze.Count - width; i++)
+
+            for (int i = 0; i < maze.Count - width; i++)
             {
                 walls.Add((maze[i].First(), maze[i + width].First()));
             }
-            
-           while(maze.Count > 1)
+
+            while (maze.Count > 1)
             {
                 var RandomWall = walls[gen.Next(walls.Count)];
 
@@ -135,6 +128,7 @@ namespace Union_Find
                 }
 
                 graph.AddEdge(RandomWall.first, RandomWall.second, 0);
+                graph.EdgeCount++;
 
                 First.UnionWith(Second);
 
